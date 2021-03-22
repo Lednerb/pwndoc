@@ -6,7 +6,6 @@
 
 All 3 containers can be run at once using the docker-compose file in the root directory.
 
-!> For production usage make sure to change the JWT secret in «src/lib/auth.js» and certificates in «ssl» folder
 
 Build and run Docker containers
 ```
@@ -33,18 +32,19 @@ Update
 
 ```
 docker-compose down
-git pull
+git pull origin master
 docker-compose up -d --build
 ```
 
 Application is accessible through https://localhost:8443  
-API is accessible through https://localhost:4242/api
+API is accessible through https://localhost:8443/api
 
-!> When using Firefox, a certificate exception must be added for the backend. For that go to https://localhost:4242/api/users/init
 
-## Developpment
 
-For developpment purposes, specific docker-compose file can be used in each folder (backend/frontend).
+
+## Development
+
+For development purposes, specific docker-compose file can be used in each folder (backend/frontend).
 
 > *Source code can be modified live and application will automatically reload on changes.*
 

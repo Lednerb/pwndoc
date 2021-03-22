@@ -1,3 +1,14 @@
+var fs = require('fs');
+
+// Create JWT secret if none is set via .env file
+function createSecret() {
+    const secret = require('crypto').randomBytes(32).toString('hex');
+    fs.writeFile(".env", "SECRET=" + secret, () => { }); //no need for the callback
+    return secret;
+}
+exports.createSecret = createSecret;
+
+
 // Filename whitelist validation for template creation
 function validFilename(filename) {
     const regex = /^[A-zÀ-ú0-9 \[\]\'()_-]+$/i;
@@ -20,3 +31,8 @@ function lPad(number) {
     return `${number}`;
 }
 exports.lPad = lPad;
+
+function escapeRegex(regex) {
+    return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+}
+exports.escapeRegex = escapeRegex

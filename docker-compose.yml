@@ -4,10 +4,8 @@ services:
     image: mongo
     container_name: mongo-pwndoc
     volumes:
-      - ./backend/mongo-data:/data/db
+      - mongo-data:/data/db
     restart: always
-    ports:
-      - 127.0.0.1:27017:27017
     environment:
       - MONGO_DB:pwndoc
     networks:
@@ -18,12 +16,10 @@ services:
     image: yeln4ts/pwndoc:backend
     container_name: pwndoc-backend
     volumes:
-      - ./backend/report-templates:/app/report-templates
+      - report-templates:/app/report-templates
     depends_on:
       - mongodb
     restart: always
-    ports:
-      - 4242:4242
     links:
       - mongodb
     networks: 
@@ -42,3 +38,7 @@ services:
 networks:
   backend:
       driver: bridge
+
+volumes:
+  mongo-data:
+  report-templates:
