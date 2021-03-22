@@ -51,11 +51,13 @@ export default {
     return result
   },
 
+  // Update all basic-editor when noSync is necessary for performance (text with images). 
   syncEditors: function(refs) {
-    // Update all basic-editor when noSync is necessary for performance (text with images). 
     Object.keys(refs).forEach(key => {
-        if (key.startsWith('basiceditor_') && refs[key]) // ref must start with 'basiceditor_'
-            (Array.isArray(refs[key]))? refs[key].forEach(elt => elt.updateHTML()) : refs[key].updateHTML()
+      if (key.startsWith('basiceditor_') && refs[key]) // ref must start with 'basiceditor_'
+        (Array.isArray(refs[key]))? refs[key].forEach(elt => elt.updateHTML()) : refs[key].updateHTML()
+      else if (refs[key] && refs[key].$refs) // check for editors in child components
+        this.syncEditors(refs[key].$refs)
     })
   },
 
@@ -104,5 +106,46 @@ export default {
         return true
     })
     return result
+  },
+
+  filterCustomFields: function(page, displaySub, customFields = [], objectFields = []) {
+    var cFields = []
+    var display = []
+
+    customFields.forEach(field => {
+      switch (page) {
+        case 'finding':
+          display = ['finding', 'vulnerability']
+          break
+        case 'vulnerability':
+          display = ['vulnerability']
+          break
+        case 'audit-general':
+          display = ['general']
+          break
+      }
+
+      if ((display.includes(field.display) && (field.displaySub === '' || field.displaySub === displaySub))) {
+        var fieldText = ''
+        for (var i=0;i<objectFields.length; i++) { // Set corresponding text value
+          var customFieldId = ""
+          if (typeof objectFields[i].customField === 'object')
+            customFieldId = objectFields[i].customField._id
+          else
+            customFieldId = objectFields[i].customField
+          if (objectFields[i].customField && customFieldId === field._id) {
+              fieldText = objectFields[i].text
+              break
+          }  
+        }
+
+        cFields.push({
+            customField: field,
+            text: fieldText
+        })
+      }
+    })
+
+    return cFields
   }
 }

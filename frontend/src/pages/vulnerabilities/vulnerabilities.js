@@ -3,10 +3,13 @@ import { Dialog, Notify } from 'quasar';
 import BasicEditor from 'components/editor';
 import Breadcrumb from 'components/breadcrumb'
 import CvssCalculator from 'components/cvsscalculator'
+import TextareaArray from 'components/textarea-array'
+import CustomFields from 'components/custom-fields'
 
 import VulnerabilityService from '@/services/vulnerability'
 import DataService from '@/services/data'
 import UserService from '@/services/user'
+import Utils from '@/services/utils'
 
 export default {
     data: () => {
@@ -50,7 +53,6 @@ export default {
                 cvssSeverity: '',
                 priority: '',
                 remediationComplexity: '',
-                references: [],
                 details: [] 
             },
             currentLanguage: "",
@@ -62,7 +64,6 @@ export default {
             currentUpdate: '',
             currentUpdateLocale: '',
             vulnTypes: [],
-            referencesString: '',
             // Merge languages
             mergeLanguageLeft: '',
             mergeLanguageRight: '',
@@ -79,7 +80,9 @@ export default {
     components: {
         BasicEditor,
         Breadcrumb,
-        CvssCalculator
+        CvssCalculator,
+        TextareaArray,
+        CustomFields
     },
 
     mounted: function() {
@@ -202,7 +205,6 @@ export default {
             if (this.errors.title)
                 return;
 
-            this.currentVulnerability.references = this.referencesString.split('\n').filter(e => e !== '')
             VulnerabilityService.createVulnerabilities([this.currentVulnerability])
             .then(() => {
                 this.getVulnerabilities();
@@ -233,7 +235,6 @@ export default {
             if (this.errors.title)
                 return;
 
-            this.currentVulnerability.references = this.referencesString.split('\n').filter(e => e !== '')
             VulnerabilityService.updateVulnerability(this.vulnerabilityId, this.currentVulnerability)
             .then(() => {
                 this.getVulnerabilities();
@@ -291,6 +292,9 @@ export default {
             VulnerabilityService.getVulnUpdates(vulnId)
             .then((data) => {
                 this.vulnUpdates = data.data.datas;
+                this.vulnUpdates.forEach(vuln => {
+                    vuln.customFields = Utils.filterCustomFields('vulnerability', this.currentVulnerability.category, this.customFields, vuln.customFields)
+                })
                 if (this.vulnUpdates.length > 0) {
                     this.currentUpdate = this.vulnUpdates[0]._id || null;
                     this.currentLanguage = this.vulnUpdates[0].locale || null;
@@ -305,9 +309,6 @@ export default {
             this.cleanCurrentVulnerability();
             
             this.currentVulnerability = this.$_.cloneDeep(row)
-            this.referencesString = ""
-            if (this.currentVulnerability.references && this.currentVulnerability.references.length > 0)
-                this.referencesString = this.currentVulnerability.references.join('\n')
             this.setCurrentDetails();
             
             this.vulnerabilityId = row._id;
@@ -344,7 +345,6 @@ export default {
             this.currentVulnerability.cvssSeverity = '';
             this.currentVulnerability.priority = '';
             this.currentVulnerability.remediationComplexity = '';
-            this.currentVulnerability.references = [];
             this.currentVulnerability.details = [];
             this.currentLanguage = this.dtLanguage;
             if (this.currentCategory && this.currentCategory.name) 
@@ -352,7 +352,6 @@ export default {
             else
                 this.currentVulnerability.category = null
 
-            this.referencesString = ''
             this.setCurrentDetails();
         },
 
@@ -366,46 +365,17 @@ export default {
                     vulnType: '',
                     description: '',
                     observation: '',
-                    remediation: ''
+                    remediation: '',
+                    references: [],
+                    customFields: []
                 }
-                details.customFields = []
-                this.customFields.forEach(field => {
-                    details.customFields.push({
-                        customField: field._id,
-                        label: field.label,
-                        fieldType: field.fieldType,
-                        displayVuln: field.displayVuln,
-                        displayFinding: field.displayFinding,
-                        displayCategory: field.displayCategory,
-                        text: ''
-                    })
-                })
+                details.customFields = Utils.filterCustomFields('vulnerability', this.currentVulnerability.category, this.customFields, [])
                 
                 this.currentVulnerability.details.push(details)
                 index = this.currentVulnerability.details.length - 1;
             }
             else {
-                var cFields = []
-                this.customFields.forEach(field => {
-                    var fieldText = ''
-                    var vulnFields = this.currentVulnerability.details[index].customFields || []
-                    for (var i=0;i<vulnFields.length; i++) {
-                        if (vulnFields[i].customField === field._id) {
-                            fieldText = vulnFields[i].text
-                            break
-                        }  
-                    }
-                    cFields.push({
-                        customField: field._id,
-                        label: field.label,
-                        fieldType: field.fieldType,
-                        displayVuln: field.displayVuln,
-                        displayFinding: field.displayFinding,
-                        displayCategory: field.displayCategory,
-                        text: fieldText
-                    })
-                })
-                this.currentVulnerability.details[index].customFields = cFields
+                this.currentVulnerability.details[index].customFields = Utils.filterCustomFields('vulnerability', this.currentVulnerability.category, this.customFields, this.currentVulnerability.details[index].customFields)
             }
             this.currentDetailsIndex = index;
         },
