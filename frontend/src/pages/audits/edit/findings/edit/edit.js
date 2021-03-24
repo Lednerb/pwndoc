@@ -20,7 +20,9 @@ export default {
             proofsTabVisited: false,
             detailsTabVisited: false,
             vulnTypes: [],
-            customFields: []
+            customFields: [],
+            parentsScope:[],
+            scopeArray:[]
         }
     },
 
@@ -37,7 +39,7 @@ export default {
         this.findingId = this.$route.params.findingId;
         this.getFinding();
         this.getVulnTypes();
-
+        this.getAuditGeneral();
         this.$socket.emit('menu', {menu: 'editFinding', finding: this.findingId, room: this.auditId});
 
         // save on ctrl+s
@@ -90,6 +92,22 @@ export default {
     },
 
     methods: {
+        // Get Audit datas from uuid
+        getAuditGeneral: function() {
+            DataService.getCustomFields()
+                .then((data) => {
+                    this.customFields = data.data.datas
+                    return AuditService.getAuditGeneral(this.auditId)
+                })
+                .then((data) => {
+                    this.audit = data.data.datas;
+                    this.parentsScope = this.audit.scope
+                    this.getCollaborators()
+                })
+                .catch((err) => {
+                    console.log(err.response)
+                })
+        },
         _listener: function(e) {
             if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode == 83) {
                 e.preventDefault();

@@ -29,15 +29,28 @@
         <q-space />
     </q-tabs>
 
+
     <q-tab-panels v-model="selectedTab" animated class="bg-transparent col-md-8 col-12 offset-md-2" @before-transition="syncEditors" @transition="updateOrig" >
         <q-tab-panel name="definition">
             <q-card class="bg-grey-1">
+
+                <div style="min-width: 250px; max-width: 300px">
+                    <q-select
+                            filled
+                            v-model="scopeArray"
+                            multiple
+                            :options="parentsScope"
+                            use-chips
+                            stack-label
+                            label="Scope(s) auswählen"
+                    />
+                </div>
                 <q-card-section class="row q-col-gutter-md">
                         <q-input class="col-md-8 col-12" label="Title *" stack-label v-model="finding.title" outlined bg-color="white" />
                         <q-select 
                         class="col-md-4 col-12"
                         label="Type"
-                        v-model="finding.vulnType" 
+                        v-model="finding.vulnType"
                         :options="vulnTypesLang" 
                         option-value="name" 
                         option-label="name" 

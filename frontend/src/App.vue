@@ -1,7 +1,6 @@
 <template>
   <div id="q-app">
     <router-view />
-    <hr>
   </div>
 </template>
 
