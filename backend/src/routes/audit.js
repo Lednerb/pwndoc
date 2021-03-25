@@ -191,6 +191,7 @@ module.exports = function(app, io) {
 
     // Update finding of audit
     app.put("/api/audits/:auditId/findings/:findingId", acl.hasPermission('audits:update'), function(req, res) {
+        //req.body.scopeArray
         var finding = {};
         // Optional parameters
         if (req.body.title) finding.title = req.body.title;
@@ -209,6 +210,7 @@ module.exports = function(app, io) {
         if (req.body.status !== undefined) finding.status = req.body.status;
         if (req.body.category) finding.category = req.body.category
         if (req.body.customFields) finding.customFields = req.body.customFields
+        if(req.body.scopeArray) finding.scopeArray = req.body.scopeArray
 
         Audit.updateFinding(acl.isAllowed(req.decodedToken.role, 'audits:update-all'), req.params.auditId, req.decodedToken.id, req.params.findingId, finding)
         .then(msg => {
