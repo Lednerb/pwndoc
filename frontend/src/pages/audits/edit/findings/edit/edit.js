@@ -22,7 +22,9 @@ export default {
             vulnTypes: [],
             customFields: [],
             parentsScope: [],
-            scopeArray: []
+            scopeArray: [],
+            tmpScopeArray: [],
+            currentSelectedScope: []
         }
     },
 
@@ -136,6 +138,8 @@ export default {
                 })
                 .then((data) => {
                     this.finding = data.data.datas;
+                    this.currentSelectedScope = data.data.datas.scopeArray
+                    this.tmpScopeArray = this.currentSelectedScope
                     if (this.finding.paragraphs.length > 0 && !this.finding.poc)
                         this.finding.poc = this.convertParagraphsToHTML(this.finding.paragraphs)
 
@@ -182,6 +186,11 @@ export default {
                     })
                     return
                 }
+
+                //nothing changed in scope-array
+                if (this.scopeArray.length === 0)
+                    this.scopeArray = this.tmpScopeArray
+
 
                 AuditService.updateFinding(this.auditId, this.findingId, this.finding, this.scopeArray)
                     .then(() => {
