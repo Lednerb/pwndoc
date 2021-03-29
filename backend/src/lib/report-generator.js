@@ -389,23 +389,29 @@ async function prepAuditData(data) {
         }
         result.findings.push(tmpFinding)
     }
-    result.cntSeverty = []
+    result.cntSeverity = []
     var cntSeverity = {}
+
     for (scope of result.scope) {
         var tmp = scope.name
         var cnt = 0
+        var tmpFind = []
         for (find of result.findings) {
             for (findtmp of find.scopeArray) {
-                if (tmp === findtmp)
+                if (tmp === findtmp) {
                     cnt++;
+                    tmpFind.push(find);
+                }
 
                 cntSeverity = {
                     severityname: tmp,
-                    severitycnt: cnt
+                    severitycnt: cnt,
+                    scopeFinding: tmpFind
                 }
             }
+
         }
-        result.cntSeverty.push(cntSeverity)
+        result.cntSeverity.push(cntSeverity)
     }
 
     result.creator = {}
@@ -422,7 +428,7 @@ async function prepAuditData(data) {
             text: await splitHTMLParagraphs(section.text)
         }
     }
-
+    console.log(result)
     return result
 }
 
