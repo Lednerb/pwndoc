@@ -8,14 +8,14 @@
 						<q-item-section>Sections</q-item-section>
 						<q-item-section side>
 							<q-btn flat dense size="sm" color="info" icon="fa fa-download" @click="generateReport">
-								<q-tooltip anchor="bottom middle" self="center left" :delay="500" content-class="text-bold">Download Report</q-tooltip> 
+								<q-tooltip anchor="bottom middle" self="center left" :delay="500" content-class="text-bold">Download Report</q-tooltip>
 							</q-btn>
 						</q-item-section>
 					</q-item>
 
 					<q-separator />
 
-					<q-item 
+					<q-item
 					:to='"/audits/"+auditId+"/general"'
 					class="q-py-lg"
 					>
@@ -24,7 +24,7 @@
 						</q-item-section>
 						<q-item-section>General Information</q-item-section>
 					</q-item>
-					
+
 					<div class="row">
 						<div v-for="(user,idx) in generalUsers" :key="idx" class="col multi-colors-bar" :style="{background:user.color}" />
 					</div>
@@ -62,9 +62,48 @@
 							/>
 						</q-item-section>
 					</q-item>
-					
+
+
+
+          <!-- hier änderung staaaaaaaaaaaaaaaaaaaaaaaaaaaaaarttt-->
+          <div v-for="categoryFindings of findingList" :key="categoryFindings.category">
+            <!--<div v-for="test of categoryFindings.findings" :key="test.scopeArray">
+              <q-item-label header>{{test.scopeArray}}</q-item-label>
+
+            </div>
+            {{categoryFindings.findings.scopeArray}}-->
+           <!-- <q-item-label header>{{categoryFindings.findings.scopeArray}} </q-item-label>
+            <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
+              <q-item
+                  dense
+                  class="cursor-pointer"
+                  :to="'/audits/'+auditId+'/findings/'+finding._id"
+              >
+                <q-item-section side>
+                  <q-chip
+                      class="text-white"
+                      size="sm"
+                      square
+                      :color="getFindingColor(finding)"
+                  >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
+                </q-item-section>
+                <q-item-section>
+                  <span>{{finding.title}}</span>
+                </q-item-section>
+                <q-item-section side v-if="finding.status === 0">
+                  <q-icon name="check" color="green" />
+                </q-item-section>
+              </q-item>
+              <div class="row">
+                <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
+              </div>
+            </q-list>-->
+          </div>
+          <q-separator />
+          <!-- hier änderung stooooooooooooooooooooooooooooooooooooooooooopppppppppppppppppppppp-->
+
 					<div v-for="categoryFindings of findingList" :key="categoryFindings.category">
-						<q-item-label header>{{categoryFindings.category}}</q-item-label>
+						<q-item-label header>{{categoryFindings.category}} </q-item-label>
 						<q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
 							<q-item
 							dense
@@ -143,7 +182,7 @@
 						<q-item-section avatar>
 							<q-icon name="fa fa-user"></q-icon>
 						</q-item-section>
-						<q-item-section>Users Connected</q-item-section>	
+						<q-item-section>Users Connected</q-item-section>
 					</q-item>
 					<q-list dense>
 						<q-item v-for="user of users" :key="user._id">
@@ -158,7 +197,7 @@
 					</q-list>
 				</q-list>
 			</template>
-			
+
 		</q-splitter>
 	</q-drawer>
 	<router-view :key="$route.fullPath" />
@@ -182,13 +221,14 @@ export default {
 						sections: [],
 						splitterRatio: 80,
 						loading: true,
-						vulnCategories: []
+						vulnCategories: [],
+            scopeArrayHeader: [],
 				}
 		},
 
 		created: function() {
 			this.auditId = this.$route.params.auditId;
-			this.getAudit(); // Calls getSections				
+			this.getAudit(); // Calls getSections
 		},
 
 		destroyed: function() {
@@ -214,10 +254,11 @@ export default {
 						return {category: key, findings: value}
 				})
 				.value()
-			}
+			},
 		},
 
 		methods: {
+
 			getFindingColor: function(finding) {
 				if (finding.cvssSeverity && finding.cvssSeverity !== "None") {
 					if (finding.cvssSeverity === "Low") return "green"

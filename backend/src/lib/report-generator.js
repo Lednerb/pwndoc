@@ -362,7 +362,7 @@ async function prepAuditData(data) {
             references: finding.references || [],
             cvssv3: finding.cvssv3 || "",
             cvssScore: finding.cvssScore || "",
-            cvssSeverity: finding.cvssSeverity || "",
+            cvssSeverity: await englishToGermanSeverity(finding.cvssSeverity) || "",
             poc: await splitHTMLParagraphs(finding.poc),
             affected: finding.scope || "",
             status: finding.status || "",
@@ -394,23 +394,28 @@ async function prepAuditData(data) {
 
     for (scope of result.scope) {
         var tmp = scope.name
-        var cnt = 0
         var tmpFind = []
+        var tmpMatrix = [0, 0, 0, 0]
         for (find of result.findings) {
             for (findtmp of find.scopeArray) {
                 if (tmp === findtmp) {
-                    cnt++;
                     tmpFind.push(find);
                 }
 
                 cntSeverity = {
                     severityname: tmp,
-                    severitycnt: cnt,
-                    scopeFinding: tmpFind
+                    scopeFinding: tmpFind,
+                    matrix: tmpMatrix
                 }
             }
+        }
+
+        for (tmpSeverity of cntSeverity.scopeFinding) {
+            var t = severityMatrix(tmpSeverity.cvssSeverity, tmpMatrix)
 
         }
+        cntSeverity.matrix = tmpMatrix
+
         result.cntSeverity.push(cntSeverity)
     }
 
@@ -428,7 +433,6 @@ async function prepAuditData(data) {
             text: await splitHTMLParagraphs(section.text)
         }
     }
-    console.log(result)
     return result
 }
 
@@ -463,6 +467,49 @@ async function splitHTMLParagraphs(data) {
         }
     }
     return result
+}
+
+async function englishToGermanSeverity(data) {
+    switch (data) {
+        case "Critical":
+            return "Kritisch";
+            break;
+        case "High":
+            return "Hoch";
+            break;
+        case "Medium":
+            return "Mittel";
+            break;
+        case "Low":
+            return "Niedrig";
+            break;
+        default:
+            return "K.A"
+            break;
+    }
+
+}
+
+async function severityMatrix(data, matrix) {
+    switch (data) {
+        case "Kritisch":
+            matrix[0] += +1;
+            break;
+        case "Hoch":
+            matrix[1] += +1;
+            break;
+        case "Mittel":
+            matrix[2] += +1;
+            break;
+        case "Niedrig":
+            matrix[3] += +1;
+            break;
+        default:
+            return -1
+            break;
+    }
+
+    return matrix;
 }
 
 
