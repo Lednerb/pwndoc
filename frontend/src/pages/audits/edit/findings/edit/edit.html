@@ -36,31 +36,19 @@
             <q-tab-panel name="definition">
                 <q-card class="bg-grey-1">
 
-
-
-
-
-
                     <q-card-section class="row q-col-gutter-md">
 
                         <q-select
-                                class="col-md-4 col-12"
+                                class="col-md-12 col-12"
                                 filled
-                                v-model="scopeArray"
+                                v-model="tmpScopeArray"
                                 multiple
                                 :options="parentsScope"
                                 use-chips
                                 stack-label
                                 label="Scope(s) auswählen"
                         />
-                        <q-input
-                                class="col-md-8 col-12"
-                                filled
-                                disable
-                                readonly
-                                v-model="currentSelectedScope"
-                                label="Gehörigen Scope(s) zum Finding"
-                        />
+
 
                     </q-card-section>
 
