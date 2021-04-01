@@ -64,9 +64,10 @@
 					</q-item>
 
 
+          <q-separator />
+          <!-- hier änderung staaaaaaaaaaaaaaaaaaaaaaaaaaaaaarttt
 
-          <!-- hier änderung staaaaaaaaaaaaaaaaaaaaaaaaaaaaaarttt-->
-          <div v-for="categoryFindings of findingList" :key="categoryFindings.category">
+            <q-item-label header>{{a}}</q-item-label>-->
             <!--<div v-for="test of categoryFindings.findings" :key="test.scopeArray">
               <q-item-label header>{{test.scopeArray}}</q-item-label>
 
@@ -98,39 +99,97 @@
                 <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
               </div>
             </q-list>-->
-          </div>
+
           <q-separator />
           <!-- hier änderung stooooooooooooooooooooooooooooooooooooooooooopppppppppppppppppppppp-->
-
+      <!--<div v-for="a of filter" :key="a">
 					<div v-for="categoryFindings of findingList" :key="categoryFindings.category">
-						<q-item-label header>{{categoryFindings.category}} </q-item-label>
-						<q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
-							<q-item
-							dense
-							class="cursor-pointer"
-							:to="'/audits/'+auditId+'/findings/'+finding._id"
-							>
-								<q-item-section side>
-									<q-chip
-										class="text-white"
-										size="sm"
-										square
-										:color="getFindingColor(finding)"
-									>{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
-								</q-item-section>
-								<q-item-section>
-									<span>{{finding.title}}</span>
-								</q-item-section>
-								<q-item-section side v-if="finding.status === 0">
-									<q-icon name="check" color="green" />
-								</q-item-section>
-							</q-item>
-							<div class="row">
-								<div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
-							</div>
-						</q-list>
-					</div>
+						<q-item-label header>{{a}} </q-item-label>
+                <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
 
+                  <div v-for="test of finding.scopeArray" :key="test" v-if="test == a">
+                        <q-item
+                        dense
+                        class="cursor-pointer"
+                        :to="'/audits/'+auditId+'/findings/'+finding._id"
+                        >
+                          <q-item-section side>
+                            <q-chip
+                              class="text-white"
+                              size="sm"
+                              square
+                              :color="getFindingColor(finding)"
+                            >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
+                          </q-item-section>
+                          <q-item-section>
+                            <span> {{finding.title}}</span>
+                          </q-item-section>
+                          <q-item-section side v-if="finding.status === 0">
+                            <q-icon name="check" color="green" />
+                          </q-item-section>
+                        </q-item>
+                        <div class="row">
+                          <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
+                        </div>
+                  </div>
+
+                 <div v-if="finding.scopeArray.length == 0">
+                  <div v-else-if="finding.scopeArray.length == 0 && test != a">
+                    {{ finding.title }}
+                    <div v-if="finding.scopeArray.length ">
+
+                    </div>
+                  </div>
+
+                </q-list>
+      </div>-->
+
+          <!-- <div v-for="categoryFindings of findingList" :key="categoryFindings.category">
+
+             <q-item-label header><b>{{categoryFindings.category}}</b></q-item-label>
+
+               <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
+                 <div v-for="filterScope of filter" :key="filterScope">
+                   {{filterScope}}
+                 </div>
+                   <div v-for="scope of finding.scopeArray" :key="scope" v-if="scope === filterScope">
+
+                   </div>
+               </q-list>-->
+
+              <!--<div v-for="a of filter" :key="a">
+                  <q-item-label header>{{a}} </q-item-label>
+                  <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
+
+                    <div v-for="test of finding.scopeArray" :key="test" v-if="test == a">
+                      <q-item
+                          dense
+                          class="cursor-pointer"
+                          :to="'/audits/'+auditId+'/findings/'+finding._id"
+                      >
+                        <q-item-section side>
+                          <q-chip
+                              class="text-white"
+                              size="sm"
+                              square
+                              :color="getFindingColor(finding)"
+                          >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
+                        </q-item-section>
+                        <q-item-section>
+                          <span> {{finding.title}}</span>
+                        </q-item-section>
+                        <q-item-section side v-if="finding.status === 0">
+                          <q-icon name="check" color="green" />
+                        </q-item-section>
+                      </q-item>
+                      <div class="row">
+                        <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
+                      </div>
+                    </div>
+
+                  </q-list>
+              </div>
+            </div>-->
 					<q-separator class="q-mt-lg" />
 
 					<q-item class="q-py-lg">
@@ -223,6 +282,7 @@ export default {
 						loading: true,
 						vulnCategories: [],
             scopeArrayHeader: [],
+            ownArray:[]
 				}
 		},
 
@@ -255,10 +315,25 @@ export default {
 				})
 				.value()
 			},
+      test: function () {
+        this.findingList.map(obj => {
+          obj.findings.map(t => {
+            if(t.scopeArray.length == 0)
+              this.scopeArrayHeader.push(["No Category"])
+            else
+              this.scopeArrayHeader.push(t.scopeArray)
+
+          });
+        });
+      },
+      filter: function () {
+        const arr = [].concat(...this.scopeArrayHeader)
+        const a = arr.filter((el,i) => arr.indexOf(el) === i)
+        return a
+      },
 		},
 
 		methods: {
-
 			getFindingColor: function(finding) {
 				if (finding.cvssSeverity && finding.cvssSeverity !== "None") {
 					if (finding.cvssSeverity === "Low") return "green"
