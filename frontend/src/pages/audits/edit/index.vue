@@ -1,196 +1,130 @@
 <template>
-<div>
-	<q-drawer side="left" :value="true" :width="400">
-		<q-splitter horizontal v-model="splitterRatio" :limits="[50, 80]" style="height: 100%">
-			<template v-slot:before>
-				<q-list class="home-drawer">
-					<q-item>
-						<q-item-section>Sections</q-item-section>
-						<q-item-section side>
-							<q-btn flat dense size="sm" color="info" icon="fa fa-download" @click="generateReport">
-								<q-tooltip anchor="bottom middle" self="center left" :delay="500" content-class="text-bold">Download Report</q-tooltip>
-							</q-btn>
-						</q-item-section>
-					</q-item>
+  <div>
+    <q-drawer side="left" :value="true" :width="400">
+      <q-splitter horizontal v-model="splitterRatio" :limits="[50, 80]" style="height: 100%">
+        <template v-slot:before>
+          <q-list class="home-drawer">
+            <q-item>
+              <q-item-section>Sections</q-item-section>
+              <q-item-section side>
+                <q-btn flat dense size="sm" color="info" icon="fa fa-download" @click="generateReport">
+                  <q-tooltip anchor="bottom middle" self="center left" :delay="500" content-class="text-bold">Download Report</q-tooltip>
+                </q-btn>
+              </q-item-section>
+            </q-item>
 
-					<q-separator />
+            <q-separator />
 
-					<q-item
-					:to='"/audits/"+auditId+"/general"'
-					class="q-py-lg"
-					>
-						<q-item-section avatar>
-							<q-icon name="fa fa-cog"></q-icon>
-						</q-item-section>
-						<q-item-section>General Information</q-item-section>
-					</q-item>
+            <q-item
+                :to='"/audits/"+auditId+"/general"'
+                class="q-py-lg"
+            >
+              <q-item-section avatar>
+                <q-icon name="fa fa-cog"></q-icon>
+              </q-item-section>
+              <q-item-section>General Information</q-item-section>
+            </q-item>
 
-					<div class="row">
-						<div v-for="(user,idx) in generalUsers" :key="idx" class="col multi-colors-bar" :style="{background:user.color}" />
-					</div>
-
-					<q-separator />
-
-					<q-item
-					:to="'/audits/'+auditId+'/network'"
-					class="q-py-lg"
-					>
-						<q-item-section avatar>
-							<q-icon name="fa fa-globe"></q-icon>
-						</q-item-section>
-						<q-item-section>Network Scan</q-item-section>
-					</q-item>
-
-					<div class="row">
-						<div v-for="(user,idx) in networkUsers" :key="idx" class="col multi-colors-bar" :style="{background:user.color}" />
-					</div>
-
-					<q-separator />
-
-					<q-item class="q-py-lg">
-						<q-item-section avatar>
-							<q-icon name="fa fa-list"></q-icon>
-						</q-item-section>
-						<q-item-section>Findings ({{audit.findings.length || 0}})</q-item-section>
-						<q-item-section avatar>
-							<q-btn
-							@click="$router.push('/audits/'+auditId+'/findings/add').catch(err=>{})"
-							icon="add"
-							round
-							dense
-							color="secondary"
-							/>
-						</q-item-section>
-					</q-item>
-
-
-          <q-separator />
-          <!-- hier änderung staaaaaaaaaaaaaaaaaaaaaaaaaaaaaarttt
-
-            <q-item-label header>{{a}}</q-item-label>-->
-            <!--<div v-for="test of categoryFindings.findings" :key="test.scopeArray">
-              <q-item-label header>{{test.scopeArray}}</q-item-label>
-
+            <div class="row">
+              <div v-for="(user,idx) in generalUsers" :key="idx" class="col multi-colors-bar" :style="{background:user.color}" />
             </div>
-            {{categoryFindings.findings.scopeArray}}-->
-           <!-- <q-item-label header>{{categoryFindings.findings.scopeArray}} </q-item-label>
-            <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
-              <q-item
-                  dense
-                  class="cursor-pointer"
-                  :to="'/audits/'+auditId+'/findings/'+finding._id"
-              >
-                <q-item-section side>
-                  <q-chip
-                      class="text-white"
-                      size="sm"
-                      square
-                      :color="getFindingColor(finding)"
-                  >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
-                </q-item-section>
-                <q-item-section>
-                  <span>{{finding.title}}</span>
-                </q-item-section>
-                <q-item-section side v-if="finding.status === 0">
-                  <q-icon name="check" color="green" />
-                </q-item-section>
-              </q-item>
-              <div class="row">
-                <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
-              </div>
-            </q-list>-->
 
-          <q-separator />
-          <!-- hier änderung stooooooooooooooooooooooooooooooooooooooooooopppppppppppppppppppppp-->
-      <!--<div v-for="a of filter" :key="a">
-					<div v-for="categoryFindings of findingList" :key="categoryFindings.category">
-						<q-item-label header>{{a}} </q-item-label>
-                <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
+            <q-separator />
 
-                  <div v-for="test of finding.scopeArray" :key="test" v-if="test == a">
-                        <q-item
+            <q-item
+                :to="'/audits/'+auditId+'/network'"
+                class="q-py-lg"
+            >
+              <q-item-section avatar>
+                <q-icon name="fa fa-globe"></q-icon>
+              </q-item-section>
+              <q-item-section>Network Scan</q-item-section>
+            </q-item>
+
+            <div class="row">
+              <div v-for="(user,idx) in networkUsers" :key="idx" class="col multi-colors-bar" :style="{background:user.color}" />
+            </div>
+
+            <q-separator />
+
+            <q-item class="q-py-lg">
+              <q-item-section avatar>
+                <q-icon name="fa fa-list"></q-icon>
+              </q-item-section>
+              <q-item-section>Findings ({{audit.findings.length || 0}})</q-item-section>
+              <q-item-section avatar>
+                <q-btn
+                    @click="$router.push('/audits/'+auditId+'/findings/add').catch(err=>{})"
+                    icon="add"
+                    round
+                    dense
+                    color="secondary"
+                />
+              </q-item-section>
+            </q-item>
+
+
+            <q-separator />
+
+            <div v-for="a in filter" :key="a">
+              <q-item-label header>{{a}}</q-item-label>
+              <div v-for="categoryFindings in findingList" :key="categoryFindings.category">
+                <q-list no-border v-for=" (finding,ind) in categoryFindings.findings" :key="finding._id">
+                  <div v-if="!finding.scopeArray.length && a === 'No Category'">
+                    <q-item
                         dense
                         class="cursor-pointer"
                         :to="'/audits/'+auditId+'/findings/'+finding._id"
-                        >
-                          <q-item-section side>
-                            <q-chip
-                              class="text-white"
-                              size="sm"
-                              square
-                              :color="getFindingColor(finding)"
-                            >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
-                          </q-item-section>
-                          <q-item-section>
-                            <span> {{finding.title}}</span>
-                          </q-item-section>
-                          <q-item-section side v-if="finding.status === 0">
-                            <q-icon name="check" color="green" />
-                          </q-item-section>
-                        </q-item>
-                        <div class="row">
-                          <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
-                        </div>
-                  </div>
-
-                 <div v-if="finding.scopeArray.length == 0">
-                  <div v-else-if="finding.scopeArray.length == 0 && test != a">
-                    {{ finding.title }}
-                    <div v-if="finding.scopeArray.length ">
-
+                    >
+                      <q-item-section side>
+                        <q-chip
+                            class="text-white"
+                            size="sm"
+                            square
+                            :color="getFindingColor(finding)"
+                        >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
+                      </q-item-section>
+                      <q-item-section>
+                        <span>{{finding.title}}</span>
+                      </q-item-section>
+                      <q-item-section side v-if="finding.status === 0">
+                        <q-icon name="check" color="green" />
+                      </q-item-section>
+                    </q-item>
+                    <div class="row">
+                      <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
                     </div>
                   </div>
-
+                  <div v-for="(item, index) in finding.scopeArray" :key="item" v-if="item === a">
+                    <q-item
+                        dense
+                        class="cursor-pointer"
+                        :to="'/audits/'+auditId+'/findings/'+finding._id"
+                    >
+                      <q-item-section side>
+                        <q-chip
+                            class="text-white"
+                            size="sm"
+                            square
+                            :color="getFindingColor(finding)"
+                        >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
+                      </q-item-section>
+                      <q-item-section>
+                        <span>{{finding.title}}</span>
+                      </q-item-section>
+                      <q-item-section side v-if="finding.status === 0">
+                        <q-icon name="check" color="green" />
+                      </q-item-section>
+                    </q-item>
+                    <div class="row">
+                      <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
+                    </div>
+                  </div>
                 </q-list>
-      </div>-->
-
-          <!-- <div v-for="categoryFindings of findingList" :key="categoryFindings.category">
-
-             <q-item-label header><b>{{categoryFindings.category}}</b></q-item-label>
-
-               <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
-                 <div v-for="filterScope of filter" :key="filterScope">
-                   {{filterScope}}
-                 </div>
-                   <div v-for="scope of finding.scopeArray" :key="scope" v-if="scope === filterScope">
-
-                   </div>
-               </q-list>-->
-
-              <!--<div v-for="a of filter" :key="a">
-                  <q-item-label header>{{a}} </q-item-label>
-                  <q-list no-border v-for="finding of categoryFindings.findings" :key="finding._id">
-
-                    <div v-for="test of finding.scopeArray" :key="test" v-if="test == a">
-                      <q-item
-                          dense
-                          class="cursor-pointer"
-                          :to="'/audits/'+auditId+'/findings/'+finding._id"
-                      >
-                        <q-item-section side>
-                          <q-chip
-                              class="text-white"
-                              size="sm"
-                              square
-                              :color="getFindingColor(finding)"
-                          >{{(finding.cvssSeverity)?finding.cvssSeverity.substring(0,1):"N"}}</q-chip>
-                        </q-item-section>
-                        <q-item-section>
-                          <span> {{finding.title}}</span>
-                        </q-item-section>
-                        <q-item-section side v-if="finding.status === 0">
-                          <q-icon name="check" color="green" />
-                        </q-item-section>
-                      </q-item>
-                      <div class="row">
-                        <div v-for="(user,idx) in findingUsers" :key="idx" v-if="user.finding === finding._id" class="col multi-colors-bar" :style="{background:user.color}" />
-                      </div>
-                    </div>
-
-                  </q-list>
               </div>
-            </div>-->
-					<q-separator class="q-mt-lg" />
+            </div>
+
+            <q-separator class="q-mt-lg" />
 
 					<q-item class="q-py-lg">
 						<q-item-section>Custom Sections</q-item-section>
@@ -258,10 +192,10 @@
 				</q-list>
 			</template>
 
-		</q-splitter>
-	</q-drawer>
-	<router-view :key="$route.fullPath" />
-	</div>
+      </q-splitter>
+    </q-drawer>
+    <router-view :key="$route.fullPath" />
+  </div>
 </template>
 
 <script>
@@ -473,48 +407,48 @@ export default {
 
 <style lang="stylus">
 .edit-container {
-		margin-top: 50px;
-		/*margin-left: 0px; Cancel q-col-gutter-md for left*/
-		/*margin-right: 16px; Cancel q-col-gutter-md for right*/
+  margin-top: 50px;
+  /*margin-left: 0px; Cancel q-col-gutter-md for left*/
+  /*margin-right: 16px; Cancel q-col-gutter-md for right*/
 }
 
 .edit-breadcrumb {
-		position: fixed;
-		top: 50px;
-		right: 0;
-		left: 300px;
-		z-index: 1;
+  position: fixed;
+  top: 50px;
+  right: 0;
+  left: 300px;
+  z-index: 1;
 }
 
 .q-menu > .q-item--active {
-		color: white;
-		background-color: $blue-14;
+  color: white;
+  background-color: $blue-14;
 }
 
 .card-screenshots {
-	height: calc(100vh - 120px); /* 100% Full-height */
-	overflow-x: hidden; /* Disable horizontal scroll */
-	margin-right: 16px;
+  height: calc(100vh - 120px); /* 100% Full-height */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  margin-right: 16px;
 }
 
 .affix {
-	width: calc(16.6667% - 69px);
+  width: calc(16.6667% - 69px);
 }
 
 .caption-text input {
-		text-align: center;
+  text-align: center;
 }
 
 .multi-colors-bar {
-	height: 5px;
+  height: 5px;
 }
 
 .drawer-footer {
-	// left: 0!important;
-	// height: 30%;
-	background-color: white;
-	color: black;
-	font-size: 12px;
+// left: 0!important;
+// height: 30%;
+  background-color: white;
+  color: black;
+  font-size: 12px;
 }
 
 .edit-drawer {
