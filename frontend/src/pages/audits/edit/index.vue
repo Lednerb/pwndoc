@@ -164,6 +164,7 @@
 						<div class="row">
 							<div v-for="(user,idx) in sectionUsers" :key="idx" v-if="user.section === section._id" class="col multi-colors-bar" :style="{background:user.color}" />
 						</div>
+
 						<q-separator />
 					</q-list>
 				</q-list>
