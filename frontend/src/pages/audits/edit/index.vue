@@ -243,6 +243,11 @@ export default {
           })
           .value()
     },
+    filter: function () {
+      const arr = [].concat(...this.scopeArrayHeader)
+      const a = arr.filter((el,i) => arr.indexOf(el) === i)
+      return a
+    },
     test: function () {
       this.findingList.map(obj => {
         obj.findings.map(t => {
@@ -252,11 +257,6 @@ export default {
             this.scopeArrayHeader.push(t.scopeArray)
         });
       });
-    },
-    filter: function () {
-      const arr = [].concat(...this.scopeArrayHeader)
-      const a = arr.filter((el,i) => arr.indexOf(el) === i)
-      return a
     },
   },
   methods: {
