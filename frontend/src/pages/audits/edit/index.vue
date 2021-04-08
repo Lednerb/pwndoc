@@ -68,7 +68,7 @@
 
             <div v-for="a in filter" :key="a">
               <q-item-label header>{{a}}</q-item-label>
-              <div v-for="categoryFindings in findingList" :key="categoryFindings.category">
+              <div v-for="categoryFindings in findingList" :key="categoryFindings.category" v-if="findingList">
                 <q-list no-border v-for=" (finding,ind) in categoryFindings.findings" :key="finding._id">
                   <div v-if="!finding.scopeArray.length && a === 'No Category'">
                     <q-item
@@ -233,6 +233,7 @@ export default {
     findingUsers: function() {return this.users.filter(user => user.menu === 'editFinding')},
     sectionUsers: function() {return this.users.filter(user => user.menu === 'editSection')},
     findingList: function() { // Group findings by category
+      console.log("findingList")
       return _.chain(this.audit.findings)
           .groupBy("category")
           .map((value, key) => {
