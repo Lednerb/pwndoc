@@ -208,7 +208,7 @@ export default {
       auditId: "",
       findings: [],
       users: [],
-      audit: {findings: {}},
+      audit: {findings: []},
       sections: [],
       splitterRatio: 80,
       loading: true,
@@ -233,7 +233,6 @@ export default {
     findingUsers: function() {return this.users.filter(user => user.menu === 'editFinding')},
     sectionUsers: function() {return this.users.filter(user => user.menu === 'editSection')},
     findingList: function() { // Group findings by category
-      console.log("findingList")
       return _.chain(this.audit.findings)
           .groupBy("category")
           .map((value, key) => {
@@ -244,21 +243,35 @@ export default {
           })
           .value()
     },
-    filter: function () {
-      const arr = [].concat(...this.scopeArrayHeader)
-      const a = arr.filter((el,i) => arr.indexOf(el) === i)
-      return a
+    filter() {
+      const settedArray = Array.from(new Set(this.scopeArrayHeader));
+      return settedArray;
     },
-    test: function () {
-      this.findingList.map(obj => {
-        obj.findings.map(t => {
-          if(t.scopeArray.length == 0)
-            this.scopeArrayHeader.push(["No Category"])
-          else
-            this.scopeArrayHeader.push(t.scopeArray)
-        });
-      });
+    test() {
+      this.findingList.forEach( finding => {
+          finding.findings.forEach( deepFinding => {
+              deepFinding.scopeArray.forEach( scope => {
+                this.scopeArrayHeader.push(scope);
+              })
+
+              if(deepFinding.scopeArray.length === 0) this.scopeArrayHeader.push("No Category");
+          })
+      })
     },
+  },
+  watch: {
+      "audit.findings": {
+          deep: true,
+          immediate: true,
+          handler(findings) {
+              findings.forEach( finding => {
+                finding.scopeArray.forEach( scope => {
+                  this.scopeArrayHeader.push(scope);
+                })
+                if(finding.scopeArray.length === 0) this.scopeArrayHeader.push("No Category")
+              })
+          }
+      }
   },
   methods: {
     getFindingColor: function(finding) {
