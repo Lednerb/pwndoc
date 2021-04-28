@@ -36,6 +36,7 @@ require('./models/custom-section');
 require('./models/custom-field');
 require('./models/image');
 
+app.set("database", mongoose);
 // Socket IO configuration
 var getSockets = function(room) {
   return Object.entries(io.sockets.adapter.rooms[room] === undefined ? {} : io.sockets.adapter.rooms[room].sockets)

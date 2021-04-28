@@ -10,43 +10,42 @@ export default {
         return new Promise((resolve, reject) => {
             var params = {username: username, password: password};
             Vue.prototype.$axios.post(`users/token`, params)
-            .then((response) => {
-                var token = response.data.datas.token;
-                this.user = jwtDecode(token);
-                resolve();
-            })
-            .catch((error) => {
-                console.log(error)
-                reject(error);
-            })
+                .then((response) => {
+                    var token = response.data.datas.token;
+                    this.user = jwtDecode(token);
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                })
         })
     },
 
-    destroyToken() {
-        Vue.prototype.$axios.get('users/destroytoken')
-        .then(() => {
-            Router.push('/login');
-        })
-        .catch(err => console.log(err))
+    async destroyToken() {
+        await Vue.prototype.$axios.get('users/destroytoken')
+            .then(() => {
+                Router.push('/login');
+            })
+            .catch(err => console.log(err))
     },
 
     checkToken() {
         return new Promise((resolve, reject) => {
             Vue.prototype.$axios.get(`users/checktoken`)
-            .then(data => {
-                var token = data.data.datas
-                var decoded = jwtDecode(token);
-                if (decoded) {
-                    this.user = decoded;
-                    resolve();
-                }
-                else
-                    reject('InvalidToken');
-                resolve()
-            })
-            .catch((error) => {
-                reject(error);
-            })
+                .then(data => {
+                    var token = data.data.datas
+                    var decoded = jwtDecode(token);
+                    if (decoded) {
+                        this.user = decoded;
+                        resolve();
+                    }
+                    else
+                        reject('InvalidToken');
+                    resolve()
+                })
+                .catch((error) => {
+                    reject(error);
+                })
         })
     },
 
@@ -54,15 +53,15 @@ export default {
         return new Promise((resolve, reject) => {
             var params = {username: username, password: password, firstname: firstname, lastname: lastname};
             Vue.prototype.$axios.post(`users/init`, params)
-            .then((response) => {
-                var token = response.data.datas.token;
-                this.user = jwtDecode(token);
-                resolve();
-            })
-            .catch((error) => {
-                console.log(error)
-                reject(error);
-            })
+                .then((response) => {
+                    var token = response.data.datas.token;
+                    this.user = jwtDecode(token);
+                    resolve();
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error);
+                })
         })
     },
 
@@ -78,11 +77,11 @@ export default {
         return (this.user.roles && (this.user.roles.includes(role) || this.user.roles === '*'))
     },
 
-    getProfile: function() {
+    getProfile: function () {
         return Vue.prototype.$axios.get(`users/me`);
     },
 
-    updateProfile: function(user) {
+    updateProfile: function (user) {
         return Vue.prototype.$axios.put(`users/me`, user);
     },
 
