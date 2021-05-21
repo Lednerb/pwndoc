@@ -36,8 +36,6 @@ export default {
             .then(data => {
                 var token = data.data.datas
                 var decoded = jwtDecode(token);
-                //TODO:dgc - check jwt
-                //hier datenabfrage ob user in der tabelle vorhanden ist
                 if (decoded) {
                     this.user = decoded;
                     resolve();
