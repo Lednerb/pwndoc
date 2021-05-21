@@ -439,6 +439,7 @@ async function prepAuditData(data) {
         }
         result[section.field] = formatSection
     }
+
     return result
 }
 
