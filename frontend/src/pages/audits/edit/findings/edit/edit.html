@@ -37,6 +37,25 @@
                 <q-card class="bg-grey-1">
 
                     <q-card-section class="row q-col-gutter-md">
+<breadcrumb buttons :title="`${$parent.audit.name} (${$parent.audit.auditType || 'Audit Type not set'})`">
+    <div slot="buttons">
+        <q-btn
+        color="orange"
+        class="q-mr-sm"
+        label="Propose Creation / Update in Vulnerability Database"
+        no-caps
+        @click="backupFinding()"
+        />
+        <q-btn
+        color="negative"
+        class="q-mr-sm"
+        label="Delete"
+        no-caps
+        @click="deleteFinding()"
+        />
+        <q-btn color="positive" label="Save (ctrl+s)" no-caps @click="updateFinding()" />
+    </div>
+</breadcrumb>
 
                         <q-select
                                 class="col-md-12 col-12"

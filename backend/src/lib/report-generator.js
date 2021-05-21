@@ -433,6 +433,19 @@ async function prepAuditData(data) {
             name: section.name,
             text: await splitHTMLParagraphs(section.text)
         }
+        if (section.text) // keep text for retrocompatibility
+            formatSection.text = await splitHTMLParagraphs(section.text)
+        else if (section.customFields) {
+            for (field of section.customFields) {
+                var fieldType = field.customField.fieldType
+                var label = field.customField.label
+                if (fieldType === 'input')
+                    formatSection[_.deburr(label.toLowerCase()).replace(/\s/g, '').replace(/[^\w]/g, '_')] = field.text
+                else if (fieldType === 'text')
+                    formatSection[_.deburr(label.toLowerCase()).replace(/\s/g, '').replace(/[^\w]/g, '_')] = await splitHTMLParagraphs(field.text)
+            }
+        }
+        result[section.field] = formatSection
     }
     return result
 }
