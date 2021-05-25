@@ -468,6 +468,7 @@ export default {
 		/*margin-left: 0px; Cancel q-col-gutter-md for left*/
 		/*margin-right: 16px; Cancel q-col-gutter-md for right*/
 }
+
 .edit-breadcrumb {
 		position: fixed;
 		top: 50px;
@@ -475,24 +476,30 @@ export default {
 		left: 300px;
 		z-index: 1;
 }
+
 .q-menu > .q-item--active {
 		color: white;
 		background-color: $blue-14;
 }
+
 .card-screenshots {
 	height: calc(100vh - 120px); /* 100% Full-height */
 	overflow-x: hidden; /* Disable horizontal scroll */
 	margin-right: 16px;
 }
+
 .affix {
 	width: calc(16.6667% - 69px);
 }
+
 .caption-text input {
 		text-align: center;
 }
+
 .multi-colors-bar {
 	height: 5px;
 }
+
 .drawer-footer {
 	// left: 0!important;
 	// height: 30%;
@@ -500,7 +507,9 @@ export default {
 	color: black;
 	font-size: 12px;
 }
+
 .edit-drawer {
 	// height: 70%;
+
 }
 </style>
