@@ -1,4 +1,4 @@
-import {Notify, Dialog} from 'quasar';
+import { Notify, Dialog } from 'quasar';
 
 import BasicEditor from 'components/editor';
 import Breadcrumb from 'components/breadcrumb';
@@ -36,7 +36,7 @@ export default {
         CustomFields
     },
 
-    mounted: function () {
+    mounted: function() {
         this.auditId = this.$route.params.auditId;
         this.findingId = this.$route.params.findingId;
         this.getFinding();
@@ -48,7 +48,7 @@ export default {
         document.addEventListener('keydown', this._listener, false);
     },
 
-    destroyed: function () {
+    destroyed: function() {
         document.removeEventListener('keydown', this._listener, false);
     },
 
@@ -56,37 +56,39 @@ export default {
         Utils.syncEditors(this.$refs)
         if (this.unsavedChanges()) {
             Dialog.create({
-                title: 'There are unsaved changes !',
-                message: `Do you really want to leave ?`,
-                ok: {label: 'Confirm', color: 'negative'},
-                cancel: {label: 'Cancel', color: 'white'}
+            title: 'There are unsaved changes !',
+            message: `Do you really want to leave ?`,
+            ok: {label: 'Confirm', color: 'negative'},
+            cancel: {label: 'Cancel', color: 'white'}
             })
                 .onOk(() => next())
-        } else
+        } 
+        else
             next()
     },
 
-    beforeRouteUpdate(to, from, next) {
+    beforeRouteUpdate (to, from , next) {
         Utils.syncEditors(this.$refs)
 
         if (this.unsavedChanges()) {
             Dialog.create({
-                title: 'There are unsaved changes !',
-                message: `Do you really want to leave ?`,
-                ok: {label: 'Confirm', color: 'negative'},
-                cancel: {label: 'Cancel', color: 'white'}
+            title: 'There are unsaved changes !',
+            message: `Do you really want to leave ?`,
+            ok: {label: 'Confirm', color: 'negative'},
+            cancel: {label: 'Cancel', color: 'white'}
             })
                 .onOk(() => next())
-        } else
+        } 
+        else
             next()
     },
 
     computed: {
-        vulnTypesLang: function () {
+        vulnTypesLang: function() {
             return this.vulnTypes.filter(type => type.locale === this.$parent.audit.language);
         },
 
-        screenshotsSize: function () {
+        screenshotsSize: function() {
             return ((JSON.stringify(this.uploadedImages).length) / 1024).toFixed(2)
         }
     },
@@ -112,21 +114,21 @@ export default {
             if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode == 83) {
                 e.preventDefault();
                 // if (e.timeStamp - lastSave > 5000) {
-                this.updateFinding();
-                // lastSave = e.timeStamp;
+                    this.updateFinding();
+                    // lastSave = e.timeStamp;
                 // }
             }
         },
 
         // Get Vulnerabilities types
-        getVulnTypes: function () {
+        getVulnTypes: function() {
             DataService.getVulnerabilityTypes()
-                .then((data) => {
-                    this.vulnTypes = data.data.datas;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+            .then((data) => {
+                this.vulnTypes = data.data.datas;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         },
 
         // Get Finding
@@ -174,14 +176,14 @@ export default {
         },
 
         // Update Finding
-        updateFinding: function () {
+        updateFinding: function() {
             Utils.syncEditors(this.$refs)
             this.$nextTick(() => {
                 if (this.$refs.customfields && this.$refs.customfields.requiredFieldsEmpty()) {
                     Notify.create({
                         message: 'Please fill all required Fields',
                         color: 'negative',
-                        textColor: 'white',
+                        textColor:'white',
                         position: 'top-right'
                     })
                     return
@@ -213,40 +215,40 @@ export default {
             })
         },
 
-        deleteFinding: function () {
+        deleteFinding: function() {
             Dialog.create({
                 title: 'Delete current Finding ?',
                 message: `This action can't be cancelled`,
                 ok: {label: 'Confirm', color: 'negative'},
                 cancel: {label: 'Cancel', color: 'white'}
             })
-                .onOk(() => {
-                    AuditService.deleteFinding(this.auditId, this.findingId)
-                        .then(() => {
-                            Notify.create({
-                                message: 'Finding deleted successfully',
-                                color: 'positive',
-                                textColor: 'white',
-                                position: 'top-right'
-                            })
-                            this.findingOrig = this.finding
-                            var currentIndex = this.$parent.audit.findings.findIndex(e => e._id === this.findingId)
-                            if (this.$parent.audit.findings.length === 1)
-                                this.$router.push(`/audits/${this.$parent.auditId}/findings/add`)
-                            else if (currentIndex === this.$parent.audit.findings.length - 1)
-                                this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex - 1]._id}`)
-                            else
-                                this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex + 1]._id}`)
+            .onOk(() => {
+                AuditService.deleteFinding(this.auditId, this.findingId)
+                    .then(() => {
+                        Notify.create({
+                            message: 'Finding deleted successfully',
+                            color: 'positive',
+                            textColor: 'white',
+                            position: 'top-right'
                         })
-                        .catch((err) => {
-                            Notify.create({
-                                message: err.response.data.datas,
-                                color: 'negative',
-                                textColor: 'white',
-                                position: 'top-right'
-                            })
+                        this.findingOrig = this.finding
+                        var currentIndex = this.$parent.audit.findings.findIndex(e => e._id === this.findingId)
+                        if (this.$parent.audit.findings.length === 1)
+                            this.$router.push(`/audits/${this.$parent.auditId}/findings/add`)
+                        else if (currentIndex === this.$parent.audit.findings.length - 1)
+                            this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex - 1]._id}`)
+                        else
+                            this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex + 1]._id}`)
+                    })
+                    .catch((err) => {
+                        Notify.create({
+                            message: err.response.data.datas,
+                            color: 'negative',
+                            textColor: 'white',
+                            position: 'top-right'
                         })
-                })
+                    })
+            })
         },
 
         // Backup Finding to vulnerability database
@@ -257,7 +259,7 @@ export default {
                     Notify.create({
                         message: data.data.datas,
                         color: 'positive',
-                        textColor: 'white',
+                        textColor:'white',
                         position: 'top-right'
                     })
                 })
@@ -275,19 +277,20 @@ export default {
             Utils.syncEditors(this.$refs)
         },
 
-        updateOrig: function () {
-            if (this.selectedTab === 'proofs' && !this.proofsTabVisited) {
+        updateOrig: function() {
+            if (this.selectedTab === 'proofs' && !this.proofsTabVisited){
                 Utils.syncEditors(this.$refs)
                 this.findingOrig.poc = this.finding.poc
                 this.proofsTabVisited = true
-            } else if (this.selectedTab === 'details' && !this.detailsTabVisited) {
+            } 
+            else if (this.selectedTab === 'details' && !this.detailsTabVisited) {
                 Utils.syncEditors(this.$refs)
                 this.findingOrig.remediation = this.finding.remediation
                 this.detailsTabVisited = true
             }
         },
 
-        unsavedChanges: function () {
+        unsavedChanges: function() {
             if (this.finding.title !== this.findingOrig.title)
                 return true
             if ((this.finding.vulnType || this.findingOrig.vulnType) && this.finding.vulnType !== this.findingOrig.vulnType)
@@ -303,7 +306,7 @@ export default {
 
             if ((this.finding.poc || this.findingOrig.poc) && this.finding.poc !== this.findingOrig.poc)
                 return true
-
+            
             if ((this.finding.scope || this.findingOrig.scope) && this.finding.scope !== this.findingOrig.scope)
                 return true
             if ((this.finding.cvssv3 || this.findingOrig.cvssv3) && this.finding.cvssv3 !== this.findingOrig.cvssv3)
