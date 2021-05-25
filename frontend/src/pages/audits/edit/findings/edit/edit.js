@@ -134,31 +134,31 @@ export default {
         // Get Finding
         getFinding: function () {
             DataService.getCustomFields()
-                .then((data) => {
-                    this.customFields = data.data.datas
-                    return AuditService.getFinding(this.auditId, this.findingId)
-                })
-                .then((data) => {
-                    this.finding = data.data.datas;
-                    this.currentSelectedScope = data.data.datas.scopeArray
-                    this.tmpScopeArray = this.currentSelectedScope
-                    if (this.finding.paragraphs.length > 0 && !this.finding.poc)
-                        this.finding.poc = this.convertParagraphsToHTML(this.finding.paragraphs)
+            .then((data) => {
+                this.customFields = data.data.datas
+                return AuditService.getFinding(this.auditId, this.findingId)
+            })
+            .then((data) => {
+                this.finding = data.data.datas;
+                this.currentSelectedScope = data.data.datas.scopeArray
+                this.tmpScopeArray = this.currentSelectedScope
+                if (this.finding.paragraphs.length > 0 && !this.finding.poc)
+                    this.finding.poc = this.convertParagraphsToHTML(this.finding.paragraphs)
 
-                    this.finding.customFields = Utils.filterCustomFields('finding', this.finding.category, this.customFields, this.finding.customFields)
-                    this.$nextTick(() => {
-                        Utils.syncEditors(this.$refs)
-                        this.findingOrig = this.$_.cloneDeep(this.finding);
-                    })
+                this.finding.customFields = Utils.filterCustomFields('finding', this.finding.category, this.customFields, this.finding.customFields)
+                this.$nextTick(() => {
+                    Utils.syncEditors(this.$refs)
+                    this.findingOrig = this.$_.cloneDeep(this.finding);
                 })
-                .catch((err) => {
-                    if (!err.response)
-                        console.log(err)
-                    else if (err.response.status === 403)
-                        this.$router.push({name: '403', params: {error: err.response.data.datas}})
-                    else if (err.response.status === 404)
-                        this.$router.push({name: '404', params: {error: err.response.data.datas}})
-                })
+            })
+            .catch((err) => {
+                if (!err.response)
+                    console.log(err)
+                else if (err.response.status === 403)
+                    this.$router.push({name: '403', params: {error: err.response.data.datas}})
+                else if (err.response.status === 404)
+                    this.$router.push({name: '404', params: {error: err.response.data.datas}})
+            })
         },
 
         // For retro compatibility with old paragraphs
