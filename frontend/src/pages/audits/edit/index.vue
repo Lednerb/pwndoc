@@ -134,6 +134,7 @@
 
 <script>
 import { Notify } from 'quasar';
+
 import AuditService from '@/services/audit';
 import UserService from '@/services/user';
 import DataService from '@/services/data';
