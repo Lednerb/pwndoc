@@ -148,7 +148,7 @@ export default {
                 this.finding.customFields = Utils.filterCustomFields('finding', this.finding.category, this.customFields, this.finding.customFields)
                 this.$nextTick(() => {
                     Utils.syncEditors(this.$refs)
-                    this.findingOrig = this.$_.cloneDeep(this.finding);
+                    this.findingOrig = this.$_.cloneDeep(this.finding); 
                 })
             })
             .catch((err) => {
