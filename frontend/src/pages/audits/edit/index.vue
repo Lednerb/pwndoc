@@ -464,43 +464,43 @@ export default {
 
 <style lang="stylus">
 .edit-container {
-  margin-top: 50px;
-  /*margin-left: 0px; Cancel q-col-gutter-md for left*/
-  /*margin-right: 16px; Cancel q-col-gutter-md for right*/
+		margin-top: 50px;
+		/*margin-left: 0px; Cancel q-col-gutter-md for left*/
+		/*margin-right: 16px; Cancel q-col-gutter-md for right*/
 }
 .edit-breadcrumb {
-  position: fixed;
-  top: 50px;
-  right: 0;
-  left: 300px;
-  z-index: 1;
+		position: fixed;
+		top: 50px;
+		right: 0;
+		left: 300px;
+		z-index: 1;
 }
 .q-menu > .q-item--active {
-  color: white;
-  background-color: $blue-14;
+		color: white;
+		background-color: $blue-14;
 }
 .card-screenshots {
-  height: calc(100vh - 120px); /* 100% Full-height */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  margin-right: 16px;
+	height: calc(100vh - 120px); /* 100% Full-height */
+	overflow-x: hidden; /* Disable horizontal scroll */
+	margin-right: 16px;
 }
 .affix {
-  width: calc(16.6667% - 69px);
+	width: calc(16.6667% - 69px);
 }
 .caption-text input {
-  text-align: center;
+		text-align: center;
 }
 .multi-colors-bar {
-  height: 5px;
+	height: 5px;
 }
 .drawer-footer {
-// left: 0!important;
-// height: 30%;
-  background-color: white;
-  color: black;
-  font-size: 12px;
+	// left: 0!important;
+	// height: 30%;
+	background-color: white;
+	color: black;
+	font-size: 12px;
 }
 .edit-drawer {
-// height: 70%;
+	// height: 70%;
 }
 </style>
