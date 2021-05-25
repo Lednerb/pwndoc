@@ -1,83 +1,83 @@
 import Vue from 'vue'
 
 export default {
-    getAudits: function (filters) {
-        var queryParams = "?";
-        if (filters)
-            if (filters.findingTitle)
-                queryParams += `findingTitle=${filters.findingTitle}`;
-        return Vue.prototype.$axios.get(`audits${queryParams}`)
-    },
+  getAudits: function(filters) {
+    var queryParams = "?";
+    if (filters)
+      if (filters.findingTitle)
+        queryParams += `findingTitle=${filters.findingTitle}`;
+    return Vue.prototype.$axios.get(`audits${queryParams}`)
+  },
 
-    getAudit: function (auditId) {
-        return Vue.prototype.$axios.get(`audits/${auditId}`)
-    },
+  getAudit: function(auditId) {
+    return Vue.prototype.$axios.get(`audits/${auditId}`)
+  },
 
-    createAudit: function (audit) {
-        return Vue.prototype.$axios.post('audits', audit)
-    },
+  createAudit: function(audit) {
+    return Vue.prototype.$axios.post('audits', audit)
+  },
 
-    deleteAudit: function (auditId) {
-        return Vue.prototype.$axios.delete(`audits/${auditId}`)
-    },
+  deleteAudit: function(auditId) {
+    return Vue.prototype.$axios.delete(`audits/${auditId}`)
+  },
 
-    getAuditGeneral: function (auditId) {
-        return Vue.prototype.$axios.get(`audits/${auditId}/general`)
-    },
+  getAuditGeneral: function(auditId) {
+    return Vue.prototype.$axios.get(`audits/${auditId}/general`)
+  },
 
-    updateAuditGeneral: function (auditId, audit) {
-        return Vue.prototype.$axios.put(`audits/${auditId}/general`, audit)
-    },
+  updateAuditGeneral: function(auditId, audit) {
+    return Vue.prototype.$axios.put(`audits/${auditId}/general`, audit)
+  },
 
-    getAuditNetwork: function (auditId) {
-        return Vue.prototype.$axios.get(`audits/${auditId}/network`)
-    },
+  getAuditNetwork: function(auditId) {
+    return Vue.prototype.$axios.get(`audits/${auditId}/network`)
+  },
 
-    updateAuditNetwork: function (auditId, audit) {
-        return Vue.prototype.$axios.put(`audits/${auditId}/network`, audit)
-    },
+  updateAuditNetwork: function(auditId, audit) {
+    return Vue.prototype.$axios.put(`audits/${auditId}/network`, audit)
+  },
 
-    createFinding: function (auditId, finding) {
-        return Vue.prototype.$axios.post(`audits/${auditId}/findings`, finding)
-    },
+  createFinding: function(auditId, finding) {
+    return Vue.prototype.$axios.post(`audits/${auditId}/findings`, finding)
+  },
 
-    getFindings: function (auditId) {
-        return Vue.prototype.$axios.get(`audits/${auditId}/findings`)
-    },
+  getFindings: function(auditId) {
+    return Vue.prototype.$axios.get(`audits/${auditId}/findings`)
+  },
+  
+  getFinding: function(auditId, findingId) {
+    return Vue.prototype.$axios.get(`audits/${auditId}/findings/${findingId}`)
+  },
 
-    getFinding: function (auditId, findingId) {
-        return Vue.prototype.$axios.get(`audits/${auditId}/findings/${findingId}`)
-    },
+  updateFinding: function(auditId, findingId, finding, scopeArray) {
+    return Vue.prototype.$axios.put(`audits/${auditId}/findings/${findingId}`, {finding, scopeArray})
+  },
 
-    updateFinding: function (auditId, findingId, finding, scopeArray) {
-        return Vue.prototype.$axios.put(`audits/${auditId}/findings/${findingId}`, {finding, scopeArray})
-    },
+  deleteFinding: function(auditId, findingId) {
+    return Vue.prototype.$axios.delete(`audits/${auditId}/findings/${findingId}`)
+  },
 
-    deleteFinding: function (auditId, findingId) {
-        return Vue.prototype.$axios.delete(`audits/${auditId}/findings/${findingId}`)
-    },
+  createSection: function(auditId, section) {
+    return Vue.prototype.$axios.post(`audits/${auditId}/sections`, section)
+  },
 
-    createSection: function (auditId, section) {
-        return Vue.prototype.$axios.post(`audits/${auditId}/sections`, section)
-    },
+  getSection: function(auditId, sectionId) {
+    return Vue.prototype.$axios.get(`audits/${auditId}/sections/${sectionId}`)
+  },
 
-    getSection: function (auditId, sectionId) {
-        return Vue.prototype.$axios.get(`audits/${auditId}/sections/${sectionId}`)
-    },
+  updateSection: function(auditId, sectionId, section) {
+    return Vue.prototype.$axios.put(`audits/${auditId}/sections/${sectionId}`, section)
+  },
 
-    updateSection: function (auditId, sectionId, section) {
-        return Vue.prototype.$axios.put(`audits/${auditId}/sections/${sectionId}`, section)
-    },
+  deleteSection: function(auditId, sectionId) {
+    return Vue.prototype.$axios.delete(`audits/${auditId}/sections/${sectionId}`)
+  },
 
-    deleteSection: function (auditId, sectionId) {
-        return Vue.prototype.$axios.delete(`audits/${auditId}/sections/${sectionId}`)
-    },
+  getAuditTypes: function() {
+    return Vue.prototype.$axios.get(`audits/types`)
+  },
 
-    getAuditTypes: function () {
-        return Vue.prototype.$axios.get(`audits/types`)
-    },
-
-    generateAuditReport: function (auditId) {
-        return Vue.prototype.$axios.get(`audits/${auditId}/generate`, {responseType: 'blob'})
-    }
-}
+  generateAuditReport: function(auditId) {
+    return Vue.prototype.$axios.get(`audits/${auditId}/generate`, {responseType: 'blob'})
+  }
+} 
