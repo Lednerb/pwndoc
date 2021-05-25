@@ -80,4 +80,4 @@ export default {
   generateAuditReport: function(auditId) {
     return Vue.prototype.$axios.get(`audits/${auditId}/generate`, {responseType: 'blob'})
   }
-} 
+}
