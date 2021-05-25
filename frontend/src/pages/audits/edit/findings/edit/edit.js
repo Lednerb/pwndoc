@@ -200,7 +200,7 @@ export default {
                     Notify.create({
                         message: 'Finding updated successfully',
                         color: 'positive',
-                        textColor: 'white',
+                        textColor:'white',
                         position: 'top-right'
                     })
                 })
@@ -208,7 +208,7 @@ export default {
                     Notify.create({
                         message: err.response.data.datas,
                         color: 'negative',
-                        textColor: 'white',
+                        textColor:'white',
                         position: 'top-right'
                     })
                 })
@@ -228,7 +228,7 @@ export default {
                     Notify.create({
                         message: 'Finding deleted successfully',
                         color: 'positive',
-                        textColor: 'white',
+                        textColor:'white',
                         position: 'top-right'
                     })
                     this.findingOrig = this.finding
@@ -244,14 +244,14 @@ export default {
                     Notify.create({
                         message: err.response.data.datas,
                         color: 'negative',
-                        textColor: 'white',
+                        textColor:'white',
                         position: 'top-right'
                     })
                 })
             })
         },
 
-        // Backup Finding to vulnerability database
+         // Backup Finding to vulnerability database
         backupFinding: function () {
             Utils.syncEditors(this.$refs)
             VulnService.backupFinding(this.$parent.audit.language, this.finding)
