@@ -52,7 +52,7 @@ export default {
         document.removeEventListener('keydown', this._listener, false);
     },
 
-    beforeRouteLeave(to, from, next) {
+    beforeRouteLeave (to, from , next) {
         Utils.syncEditors(this.$refs)
         if (this.unsavedChanges()) {
             Dialog.create({
@@ -61,8 +61,8 @@ export default {
             ok: {label: 'Confirm', color: 'negative'},
             cancel: {label: 'Cancel', color: 'white'}
             })
-                .onOk(() => next())
-        } 
+            .onOk(() => next())
+        }
         else
             next()
     },
@@ -77,8 +77,8 @@ export default {
             ok: {label: 'Confirm', color: 'negative'},
             cancel: {label: 'Cancel', color: 'white'}
             })
-                .onOk(() => next())
-        } 
+            .onOk(() => next())
+        }
         else
             next()
     },
@@ -162,7 +162,7 @@ export default {
         },
 
         // For retro compatibility with old paragraphs
-        convertParagraphsToHTML: function (paragraphs) {
+        convertParagraphsToHTML: function(paragraphs) {
             var result = ""
             paragraphs.forEach(p => {
                 result += `<p>${p.text}</p>`
@@ -195,23 +195,23 @@ export default {
 
 
                 AuditService.updateFinding(this.auditId, this.findingId, this.finding, this.scopeArray)
-                    .then(() => {
-                        this.findingOrig = this.$_.cloneDeep(this.finding);
-                        Notify.create({
-                            message: 'Finding updated successfully',
-                            color: 'positive',
-                            textColor: 'white',
-                            position: 'top-right'
-                        })
+                .then(() => {
+                    this.findingOrig = this.$_.cloneDeep(this.finding);
+                    Notify.create({
+                        message: 'Finding updated successfully',
+                        color: 'positive',
+                        textColor: 'white',
+                        position: 'top-right'
                     })
-                    .catch((err) => {
-                        Notify.create({
-                            message: err.response.data.datas,
-                            color: 'negative',
-                            textColor: 'white',
-                            position: 'top-right'
-                        })
+                })
+                .catch((err) => {
+                    Notify.create({
+                        message: err.response.data.datas,
+                        color: 'negative',
+                        textColor: 'white',
+                        position: 'top-right'
                     })
+                })
             })
         },
 
@@ -224,30 +224,30 @@ export default {
             })
             .onOk(() => {
                 AuditService.deleteFinding(this.auditId, this.findingId)
-                    .then(() => {
-                        Notify.create({
-                            message: 'Finding deleted successfully',
-                            color: 'positive',
-                            textColor: 'white',
-                            position: 'top-right'
-                        })
-                        this.findingOrig = this.finding
-                        var currentIndex = this.$parent.audit.findings.findIndex(e => e._id === this.findingId)
-                        if (this.$parent.audit.findings.length === 1)
-                            this.$router.push(`/audits/${this.$parent.auditId}/findings/add`)
-                        else if (currentIndex === this.$parent.audit.findings.length - 1)
-                            this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex - 1]._id}`)
-                        else
-                            this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex + 1]._id}`)
+                .then(() => {
+                    Notify.create({
+                        message: 'Finding deleted successfully',
+                        color: 'positive',
+                        textColor: 'white',
+                        position: 'top-right'
                     })
-                    .catch((err) => {
-                        Notify.create({
-                            message: err.response.data.datas,
-                            color: 'negative',
-                            textColor: 'white',
-                            position: 'top-right'
-                        })
+                    this.findingOrig = this.finding
+                    var currentIndex = this.$parent.audit.findings.findIndex(e => e._id === this.findingId)
+                    if (this.$parent.audit.findings.length === 1)
+                        this.$router.push(`/audits/${this.$parent.auditId}/findings/add`)
+                    else if (currentIndex === this.$parent.audit.findings.length - 1)
+                        this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex - 1]._id}`)
+                    else
+                        this.$router.push(`/audits/${this.$parent.auditId}/findings/${this.$parent.audit.findings[currentIndex + 1]._id}`)
+                })
+                .catch((err) => {
+                    Notify.create({
+                        message: err.response.data.datas,
+                        color: 'negative',
+                        textColor: 'white',
+                        position: 'top-right'
                     })
+                })
             })
         },
 
@@ -267,13 +267,13 @@ export default {
                     Notify.create({
                         message: err.response.data.datas,
                         color: 'negative',
-                        textColor: 'white',
+                        textColor:'white',
                         position: 'top-right'
                     })
                 })
         },
 
-        syncEditors: function () {
+        syncEditors: function() {
             Utils.syncEditors(this.$refs)
         },
 
@@ -282,7 +282,7 @@ export default {
                 Utils.syncEditors(this.$refs)
                 this.findingOrig.poc = this.finding.poc
                 this.proofsTabVisited = true
-            } 
+            }
             else if (this.selectedTab === 'details' && !this.detailsTabVisited) {
                 Utils.syncEditors(this.$refs)
                 this.findingOrig.remediation = this.finding.remediation
@@ -306,7 +306,7 @@ export default {
 
             if ((this.finding.poc || this.findingOrig.poc) && this.finding.poc !== this.findingOrig.poc)
                 return true
-            
+
             if ((this.finding.scope || this.findingOrig.scope) && this.finding.scope !== this.findingOrig.scope)
                 return true
             if ((this.finding.cvssv3 || this.findingOrig.cvssv3) && this.finding.cvssv3 !== this.findingOrig.cvssv3)
