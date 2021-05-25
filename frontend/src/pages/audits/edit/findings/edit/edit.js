@@ -252,25 +252,25 @@ export default {
         },
 
          // Backup Finding to vulnerability database
-        backupFinding: function () {
+        backupFinding: function() {
             Utils.syncEditors(this.$refs)
             VulnService.backupFinding(this.$parent.audit.language, this.finding)
-                .then((data) => {
-                    Notify.create({
-                        message: data.data.datas,
-                        color: 'positive',
-                        textColor:'white',
-                        position: 'top-right'
-                    })
+            .then((data) => {
+                Notify.create({
+                    message: data.data.datas,
+                    color: 'positive',
+                    textColor:'white',
+                    position: 'top-right'
                 })
-                .catch((err) => {
-                    Notify.create({
-                        message: err.response.data.datas,
-                        color: 'negative',
-                        textColor:'white',
-                        position: 'top-right'
-                    })
+            })
+            .catch((err) => {
+                Notify.create({
+                    message: err.response.data.datas,
+                    color: 'negative',
+                    textColor:'white',
+                    position: 'top-right'
                 })
+            })
         },
 
         syncEditors: function() {
@@ -283,7 +283,7 @@ export default {
                 this.findingOrig.poc = this.finding.poc
                 this.proofsTabVisited = true
             }
-            else if (this.selectedTab === 'details' && !this.detailsTabVisited) {
+            else if (this.selectedTab === 'details' && !this.detailsTabVisited){
                 Utils.syncEditors(this.$refs)
                 this.findingOrig.remediation = this.finding.remediation
                 this.detailsTabVisited = true
@@ -306,7 +306,7 @@ export default {
 
             if ((this.finding.poc || this.findingOrig.poc) && this.finding.poc !== this.findingOrig.poc)
                 return true
-
+            
             if ((this.finding.scope || this.findingOrig.scope) && this.finding.scope !== this.findingOrig.scope)
                 return true
             if ((this.finding.cvssv3 || this.findingOrig.cvssv3) && this.finding.cvssv3 !== this.findingOrig.cvssv3)
