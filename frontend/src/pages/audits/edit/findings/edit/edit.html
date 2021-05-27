@@ -64,26 +64,26 @@
                                 :options="parentsScope"
                                 use-chips
                                 stack-label
-                                label="Scope(s) auswählen"
+                                label="Select Scope(s)"
                         />
 
 
-                    </q-card-section>
+    </q-card-section>
 
-                    <q-card-section class="row q-col-gutter-md">
+                <q-card-section class="row q-col-gutter-md">
                         <q-input class="col-md-8 col-12" label="Title *" stack-label v-model="finding.title" outlined bg-color="white"/>
                         <q-select
-                                class="col-md-4 col-12"
-                                label="Type"
-                                v-model="finding.vulnType"
-                                :options="vulnTypesLang"
-                                option-value="name"
-                                option-label="name"
-                                emit-value
-                                map-options
-                                options-sanitize
-                                outlined
-                                bg-color="white"
+                        class="col-md-4 col-12"
+                        label="Type"
+                        v-model="finding.vulnType"
+                        :options="vulnTypesLang"
+                        option-value="name"
+                        option-label="name"
+                        emit-value
+                        map-options
+                        options-sanitize
+                        outlined
+                        bg-color="white"
                         />
                         <q-field class="col-md-12" borderless label="Description" stack-label>
                             <template v-slot="control">
