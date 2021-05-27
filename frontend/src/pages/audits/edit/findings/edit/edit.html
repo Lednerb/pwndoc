@@ -114,81 +114,83 @@
 
                 </q-card>
             </q-tab-panel>
-            <q-tab-panel name="proofs">
-                <div class="q-col-gutter-md row">
-                    <div class="col-12">
-                        <q-card class="affix-relative-element bg-grey-1">
-                            <q-card-section>
-                                <basic-editor ref="basiceditor_poc" noSync affix v-model="finding.poc"/>
-                            </q-card-section>
-                        </q-card>
-                    </div>
-                </div>
-            </q-tab-panel>
-            <q-tab-panel name="details">
-                <q-card class="bg-grey-1">
-                    <q-card-section>Affected Assets</q-card-section>
-                    <q-separator/>
+        </q-card>
+    </q-tab-panel>
+    <q-tab-panel name="proofs">
+        <div class="q-col-gutter-md row">
+            <div class="col-12">
+                <q-card class="affix-relative-element bg-grey-1">
                     <q-card-section>
-                        <q-field borderless>
-                            <template v-slot="control">
-                                <basic-editor v-model="finding.scope" :toolbar="['format', 'marks', 'list']"/>
-                            </template>
-                        </q-field>
+                        <basic-editor ref="basiceditor_poc" noSync affix v-model="finding.poc" />
                     </q-card-section>
                 </q-card>
-                <q-card class="q-mt-md bg-grey-1">
-                    <div class="col-12">
-                        <cvss-calculator
-                                :cvssString="finding.cvssv3"
-                                :cvssScore="finding.cvssScore"
-                                :cvssSeverity="finding.cvssSeverity"
-                                @cvssChange="finding.cvssv3 = $event"
-                                @cvssScoreChange="finding.cvssScore = $event"
-                                @cvssSeverityChange="finding.cvssSeverity = $event"
-                        />
-                    </div>
-                </q-card>
-                <q-card class="q-mt-md bg-grey-1">
-                    <q-card-section>Course of actions</q-card-section>
-                    <q-separator/>
-                    <q-card-section>
-                        <div class="q-col-gutter-md row">
-                            <q-select
-                                    label="Remediation Difficulty"
-                                    stack-label
-                                    class="col-md-6 col-12"
-                                    v-model="finding.remediationComplexity"
-                                    :options="[{label: 'Easy', value: 1},{label: 'Medium', value: 2},{label: 'Complex', value: 3}]"
-                                    map-options
-                                    emit-value
-                                    options-sanitize
-                                    outlined
-                                    bg-color="white"
-                            />
-                            <q-select
-                                    label="Priority"
-                                    stack-label
-                                    class="col-md-6 col-12"
-                                    v-model="finding.priority"
-                                    :options="[{label: 'Low', value: 1},{label: 'Medium', value: 2},{label: 'High', value: 3},{label: 'Urgent', value: 4}]"
-                                    map-options
-                                    emit-value
-                                    options-sanitize
-                                    outlined
-                                    bg-color="white"
-                            />
-                        </div>
-                    </q-card-section>
-                    <q-card-section>
-                        <q-field class="col-md-12" borderless label="Remediation" stack-label>
-                            <template v-slot="control">
-                                <basic-editor ref="basiceditor_remediation" noSync v-model="finding.remediation"/>
-                            </template>
-                        </q-field>
-                    </q-card-section>
-                </q-card>
-            </q-tab-panel>
-        </q-tab-panels>
-    </div>
+            </div>
+        </div>
+    </q-tab-panel>
+    <q-tab-panel name="details">
+        <q-card class="bg-grey-1">
+            <q-card-section>Affected Assets</q-card-section>
+            <q-separator />
+            <q-card-section>
+                <q-field borderless>
+                    <template v-slot="control">
+                        <basic-editor v-model="finding.scope" :toolbar="['format', 'marks', 'list']" />
+                    </template>
+                </q-field>
+            </q-card-section>
+        </q-card>
+        <q-card class="q-mt-md bg-grey-1">
+            <div class="col-12">
+                <cvss-calculator 
+                :cvssString="finding.cvssv3"
+                :cvssScore="finding.cvssScore"
+                :cvssSeverity="finding.cvssSeverity"
+                @cvssChange="finding.cvssv3 = $event"
+                @cvssScoreChange="finding.cvssScore = $event"
+                @cvssSeverityChange="finding.cvssSeverity = $event"
+                />
+            </div>
+        </q-card>
+        <q-card class="q-mt-md bg-grey-1">
+        <q-card-section>Course of actions</q-card-section>
+        <q-separator />
+        <q-card-section>
+            <div class="q-col-gutter-md row">
+                <q-select
+                label="Remediation Difficulty"
+                stack-label
+                class="col-md-6 col-12"
+                v-model="finding.remediationComplexity"
+                :options="[{label: 'Easy', value: 1},{label: 'Medium', value: 2},{label: 'Complex', value: 3}]"
+                map-options
+                emit-value
+                options-sanitize
+                outlined
+                bg-color="white"
+                />
+                <q-select
+                label="Priority"
+                stack-label
+                class="col-md-6 col-12"
+                v-model="finding.priority"
+                :options="[{label: 'Low', value: 1},{label: 'Medium', value: 2},{label: 'High', value: 3},{label: 'Urgent', value: 4}]"
+                map-options
+                emit-value
+                options-sanitize
+                outlined
+                bg-color="white"
+                />
+            </div>
+        </q-card-section>
+        <q-card-section>
+            <q-field class="col-md-12" borderless label="Remediation" stack-label>
+                <template v-slot="control">
+                    <basic-editor ref="basiceditor_remediation" noSync v-model="finding.remediation" />
+                </template>
+            </q-field>
+        </q-card-section>
+    </q-card>
+</q-tab-panel>
+</q-tab-panels>
+</div>
 </div>
