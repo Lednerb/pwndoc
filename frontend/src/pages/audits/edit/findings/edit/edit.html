@@ -71,15 +71,15 @@
     </q-card-section>
 
                 <q-card-section class="row q-col-gutter-md">
-                        <q-input class="col-md-8 col-12" label="Title *" stack-label v-model="finding.title" outlined bg-color="white"/>
-                        <q-select
+                        <q-input class="col-md-8 col-12" label="Title *" stack-label v-model="finding.title" outlined bg-color="white" />
+                        <q-select 
                         class="col-md-4 col-12"
                         label="Type"
-                        v-model="finding.vulnType"
-                        :options="vulnTypesLang"
-                        option-value="name"
-                        option-label="name"
-                        emit-value
+                        v-model="finding.vulnType" 
+                        :options="vulnTypesLang" 
+                        option-value="name" 
+                        option-label="name" 
+                        emit-value 
                         map-options
                         options-sanitize
                         outlined
@@ -87,16 +87,16 @@
                         />
                         <q-field class="col-md-12" borderless label="Description" stack-label>
                             <template v-slot="control">
-                                <basic-editor ref="basiceditor_description" noSync v-model="finding.description"/>
+                                <basic-editor ref="basiceditor_description" noSync v-model="finding.description" />
                             </template>
                         </q-field>
                         <q-field class="col-md-12" borderless label="Observation" stack-label>
                             <template v-slot="control">
-                                <basic-editor ref="basiceditor_observation" noSync v-model="finding.observation"/>
+                                <basic-editor ref="basiceditor_observation" noSync v-model="finding.observation" />
                             </template>
                         </q-field>
                         <textarea-array class="col-12" label="References (One per line)" v-model="finding.references"/>
-                    </q-card-section>
+                </q-card-section>
 
                     <q-expansion-item
                             label="Custom Fields"
