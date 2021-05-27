@@ -1,5 +1,5 @@
 <div>
-    <breadcrumb buttons :title="$parent.audit.name">
+<breadcrumb buttons :title="$parent.audit.name">
         <div slot="buttons">
             <q-btn
                     color="orange"
@@ -25,8 +25,7 @@
             <q-tab name="proofs" label="Proofs"/>
             <q-tab name="details" label="Details"/>
             <q-separator vertical/>
-            <q-toggle label="Completed" v-model="finding.status" :true-value=0 :false-value=1 checked-icon="check"
-                      unchecked-icon="clear" color="green"/>
+        <q-toggle label="Completed" v-model="finding.status" :true-value=0 :false-value=1 checked-icon="check" unchecked-icon="clear" color="green"/>
             <q-space/>
         </q-tabs>
 
@@ -72,8 +71,7 @@
                     </q-card-section>
 
                     <q-card-section class="row q-col-gutter-md">
-                        <q-input class="col-md-8 col-12" label="Title *" stack-label v-model="finding.title" outlined
-                                 bg-color="white"/>
+                        <q-input class="col-md-8 col-12" label="Title *" stack-label v-model="finding.title" outlined bg-color="white"/>
                         <q-select
                                 class="col-md-4 col-12"
                                 label="Type"
