@@ -95,22 +95,22 @@
                                 <basic-editor ref="basiceditor_observation" noSync v-model="finding.observation" />
                             </template>
                         </q-field>
-                        <textarea-array class="col-12" label="References (One per line)" v-model="finding.references"/>
+                        <textarea-array class="col-12" label="References (One per line)" v-model="finding.references" />
                 </q-card-section>
 
-                    <q-expansion-item
-                            label="Custom Fields"
-                            v-if="finding.customFields && finding.customFields.length > 0"
-                            default-opened
-                            header-class="bg-blue-grey-5 text-white"
-                            expand-icon-class="text-white">
-                        <custom-fields
-                                ref="customfields"
-                                v-model="finding.customFields"
-                                custom-element="QCardSection"
-                                no-sync-editor
-                        />
-                    </q-expansion-item>
+                <q-expansion-item 
+                label="Custom Fields"
+                v-if="finding.customFields && finding.customFields.length > 0"
+                default-opened
+                header-class="bg-blue-grey-5 text-white"
+                expand-icon-class="text-white">
+                <custom-fields
+                ref="customfields"
+                v-model="finding.customFields"
+                custom-element="QCardSection"
+                no-sync-editor
+                />
+            </q-expansion-item>
 
                 </q-card>
             </q-tab-panel>
